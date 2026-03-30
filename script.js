@@ -236,7 +236,10 @@ function renderGrid(newCells = new Set()) {
             }
             
             cell.appendChild(img);
+            
+            // Add both mouse and touch event listeners
             cell.addEventListener('mousedown', startDrag);
+            cell.addEventListener('touchstart', startDrag);
         }
     }
 }
@@ -300,20 +303,48 @@ let dragStart = null;
 function startDrag(e) {
     if (gameState.gameOver || gameState.isAnimating) return;
     
+    // Prevent default touch behavior (scrolling, etc.)
+    if (e.touches) {
+        e.preventDefault();
+    }
+    
     resetHintTimer();
     
     draggedCell = e.currentTarget;
-    dragStart = { x: e.clientX, y: e.clientY };
+    
+    // Handle both mouse and touch events
+    const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+    const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+    
+    dragStart = { x: clientX, y: clientY };
     draggedCell.classList.add('dragging');
+    
+    // Remove any existing listeners before adding new ones
+    document.removeEventListener('mousemove', moveDrag);
+    document.removeEventListener('mouseup', endDrag);
+    document.removeEventListener('touchmove', moveDrag);
+    document.removeEventListener('touchend', endDrag);
     
     document.addEventListener('mousemove', moveDrag);
     document.addEventListener('mouseup', endDrag);
+    document.addEventListener('touchmove', moveDrag, { passive: false });
+    document.addEventListener('touchend', endDrag);
 }
 
 function moveDrag(e) {
     if (!draggedCell) return;
-    const dx = e.clientX - dragStart.x;
-    const dy = e.clientY - dragStart.y;
+    
+    // Prevent default touch behavior
+    if (e.touches) {
+        e.preventDefault();
+    }
+    
+    // Handle both mouse and touch events
+    const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+    const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+    
+    const dx = clientX - dragStart.x;
+    const dy = clientY - dragStart.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
     
     if (dist > 20) {
@@ -326,9 +357,15 @@ function endDrag(e) {
     
     document.removeEventListener('mousemove', moveDrag);
     document.removeEventListener('mouseup', endDrag);
+    document.removeEventListener('touchmove', moveDrag);
+    document.removeEventListener('touchend', endDrag);
     
-    const dx = e.clientX - dragStart.x;
-    const dy = e.clientY - dragStart.y;
+    // Handle both mouse and touch events
+    const clientX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+    const clientY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
+    
+    const dx = clientX - dragStart.x;
+    const dy = clientY - dragStart.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
     
     draggedCell.style.opacity = '1';
