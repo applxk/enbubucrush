@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enbubu Crush - Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jolly+Lodger&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Header -->
+        <div class="header">
+            <img src="../images/background/topgamebar.png" class="Topgamebar">
+            <div class="stat-box moves-box">
+                <span class="stat-label1">Moves</span>
+                <span class="stat-value" id="moves">12</span>
+            </div>
+            <div class="stat-box goals-box">
+                <span class="stat-label2">Goals</span>
+                <div class="goals-container">
+                    <!-- Goals will be dynamically generated here -->
+                </div>
+            </div>
+        </div>
+    <!-- Game Grid -->
+        <div class="game-grid" id="gameGrid">
+            <!-- Row 1 -->
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <!-- Row 2 -->
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <!-- Row 3 -->
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <!-- Row 4 -->
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <!-- Row 5 -->
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <!-- Row 6 -->
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+        </div>
+ 
+        <!-- Footer with Action Buttons -->
+        <div class="footer">
+            <img src="../images/background/bottomgamebar.png" class="Bottomgamebar">
+            <div class="action-box add-box">
+            <button class="action-btn add-btn" id="addMove">
+                <span class="btn-icon" style="margin-left: 80%;">+</span>
+            </button>
+            <span class="action-label">Add 1 move</span>
+            </div>
+            <div class="action-box reduce-box">
+            <button class="action-btn reduce-btn" id="reduceGoal">
+                <span class="btn-icon" style="margin-left: 50%;">𖣠</span>
+            </button>
+            <span class="action-label">Reduce 1 goal</span>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

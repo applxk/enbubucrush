@@ -1,0 +1,464 @@
+/* Burst Pop - explosion effect */
+@keyframes burst {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+/* Burst particles */
+@keyframes particle {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(0);
+        opacity: 0;
+    }
+}
+
+/* Drop Animation - smooth fall from top */
+@keyframes drop {
+    0% {
+        transform: translateY(-120%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Start */
+body {
+    background-image: url("../images/background/gamebackground.png");
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: 'Jolly Lodger', cursive;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    border: 5px solid #A21545;
+    overflow: hidden;
+}
+
+.spiderweb {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: clamp(150px, 25vw, 300px);
+  height: auto;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.vnsticker {
+  position: fixed;
+  top: clamp(80px, 12vh, 150px);
+  right: clamp(20px, 5vw, 60px);
+  width: clamp(60px, 12vw, 120px);
+  height: auto;
+  z-index: 6;
+  pointer-events: none;
+  filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.3));
+}
+
+.Title1 {
+    color: white;
+    font-size: clamp(32px, 30vw, 600px);
+    -webkit-text-stroke: 1px #A21545;
+    letter-spacing: 2px;
+    font-weight: bold;
+    max-width: 90vw;
+    word-break: break-word;
+    text-align: center;
+    line-height: 0.6;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+.Enbubus1 {
+    width: 150%;
+    max-width: clamp(300px, 80vw, 700px);
+    height: auto;
+    filter: drop-shadow(10px 10px 10px black);
+    margin-top: 10%;
+}
+.Start {
+    color: #A21545;
+    background-color: white;
+    font-size: clamp(16px, 40vw, 40px);
+    padding: clamp(12px, 3vw, 20px) clamp(24px, 8vw, 40px);
+    border: 3px solid #A21545;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Jolly Lodger', cursive;
+    font-weight: bold;
+    margin-bottom: 10%;
+    transition: all 0.3s ease;
+    filter: drop-shadow(10px 10px 10px black);
+}
+.Start:hover {
+    background-color: #A21545;
+    color: white;
+    border: 3px solid white;
+    transform: scale(1.05);
+}
+/* Game */
+.game-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-attachment: fixed;
+}
+.header {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  box-sizing: border-box;
+  z-index: 10;
+}
+.Topgamebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.stat-box {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 3%;
+}
+.goals-box {
+ position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5%;
+}
+.stat-label1, .stat-label2 {
+  font-size: 60px;
+  font-weight: bold;
+  color: white;
+  -webkit-text-stroke: 0.5px #A21545;
+}
+.stat-label1 {
+  margin-top: -30%;
+}
+.stat-label2 {
+  margin-top: -40%;
+  margin-left: 15%;
+}
+.stat-value {
+  font-size: 80px;
+  font-weight: bold;
+  color: white;
+  -webkit-text-stroke: 0.5px #A21545;
+  margin-top: -20%;
+}
+.goals-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: -5%;
+}
+.goal-item {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  filter: drop-shadow(2px 2px 2px black);
+}
+.goal-count {
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  -webkit-text-stroke: 0.5px #A21545;
+}
+
+/* Goal completed - tick animation */
+@keyframes tickPulse {
+    0% {
+        transform: scale(0.5) rotate(-45deg);
+        opacity: 0;
+        color: #4CAF50;
+    }
+    50% {
+        transform: scale(1.2) rotate(0deg);
+        color: #66BB6A;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+        color: #4CAF50;
+    }
+}
+
+.goal-count.goal-completed {
+    animation: tickPulse 0.6s ease-out forwards;
+    color: #4CAF50;
+    -webkit-text-stroke: 0.5px #2E7D32;
+    font-size: 35px;
+}
+/* Game Grid */
+.game-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  padding: 25px 10px;
+  overflow: hidden;
+  align-content: start;
+}
+.grid-cell {
+  aspect-ratio: 1;
+  filter: drop-shadow(2px 2px 2px black);
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.grid-cell:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Matched animation - burst effect */
+.grid-cell.matched img {
+    animation: burst 0.5s ease-out forwards;
+}
+
+/* Drop animation applied to falling pieces */
+.grid-cell.dropping img {
+    animation: drop 0.4s ease-out forwards;
+}
+
+/* New piece animation - smooth drop from top */
+.grid-cell.filling img {
+    animation: drop 0.5s ease-out forwards;
+    animation-delay: inherit;
+}
+
+/* Hint animation - pulse effect */
+@keyframes hintPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(255, 107, 157, 0.7);
+        border-color: #FF6B9D;
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(255, 107, 157, 0);
+        border-color: #FF85B4;
+    }
+}
+
+.grid-cell.hint {
+    animation: hintPulse 1.5s infinite;
+    border: 3px solid #FF6B9D;
+}
+
+/* Footer */
+.footer {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 20px 40px;
+  box-sizing: border-box;
+  z-index: 10;
+}
+.Bottomgamebar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.action-btn {
+  z-index: 1;
+}
+.btn-icon {
+  font-size: 40px;
+  font-weight: bold;
+}
+.action-box {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.action-label {
+    z-index: 0;
+    font-size: 35px;
+    margin-bottom: -10px;
+  font-weight: bold;
+  color: white;
+  -webkit-text-stroke: 0.5px #A21545;
+}
+.action-btn {
+    width: auto;
+    height: auto;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+.action-btn:hover {
+    transform: scale(1.1);
+}
+.action-btn:active {
+    transform: scale(0.95);
+}
+.btn-icon {
+    font-size: 50px;
+    color: #a01e48;
+}
+/* Win */
+.Title2 {
+    color: white;
+    font-size: clamp(32px, 30vw, 600px);
+    -webkit-text-stroke: 1px #A21545;
+    letter-spacing: 2px;
+    font-weight: bold;
+    max-width: 90vw;
+    word-break: break-word;
+    text-align: center;
+    line-height: 0.6;
+    margin-top: -10%;
+    margin-bottom: 10%;
+}
+.Enbubus2 {
+    width: 150%;
+    max-width: clamp(300px, 80vw, 700px);
+    height: auto;
+    filter: drop-shadow(10px 10px 10px black);
+    margin-top: 0%;
+}
+.win-text {
+    color: #A21545;
+    border: 3px solid #A21545;
+    border-radius: 8px;
+    background-color: white;
+    filter: drop-shadow(10px 10px 10px black);
+    font-size: 150%;
+    width: 300px;
+    height: 100px;
+    padding: 10px;
+    margin-top: -15%;
+    z-index: -1;
+}
+.Home {
+    color: #A21545;
+    background-color: white;
+    font-size: clamp(16px, 40vw, 40px);
+    padding: clamp(12px, 3vw, 20px) clamp(24px, 8vw, 40px);
+    border: 3px solid #A21545;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Jolly Lodger', cursive;
+    font-weight: bold;
+    margin-bottom: 10%;
+    margin-top: 10%;
+    transition: all 0.3s ease;
+    filter: drop-shadow(10px 10px 10px black);
+}
+.Home:hover {
+    background-color: #A21545;
+    color: white;
+    border: 3px solid white;
+    transform: scale(1.05);
+}
+/* lose */
+.Title3 {
+    color: black;
+    font-size: clamp(32px, 30vw, 600px);
+    -webkit-text-stroke: 0.5px white;
+    letter-spacing: 2px;
+    font-weight: bold;
+    max-width: 90vw;
+    word-break: break-word;
+    text-align: center;
+    line-height: 0.6;
+    margin-top: -10%;
+    margin-bottom: 10%;
+}
+.Enbubus3 {
+    width: 150%;
+    max-width: clamp(300px, 80vw, 700px);
+    height: auto;
+    filter: drop-shadow(10px 10px 10px black);
+    margin-top: 0%;
+}
+.lose-text {
+    color: white;
+    border: 3px solid white;
+    border-radius: 8px;
+    background-color: black;
+    filter: drop-shadow(10px 10px 10px black);
+    font-size: 150%;
+    width: 300px;
+    height: 100px;
+    padding: 10px;
+    margin-top: -15%;
+    z-index: -1;
+}
+.Home_alt {
+    color: white;
+    background-color: black;
+    font-size: clamp(16px, 40vw, 40px);
+    padding: clamp(12px, 3vw, 20px) clamp(24px, 8vw, 40px);
+    border: 3px solid white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Jolly Lodger', cursive;
+    font-weight: bold;
+    margin-bottom: 10%;
+    margin-top: 10%;
+    transition: all 0.3s ease;
+    filter: drop-shadow(10px 10px 10px black);
+}
+.Home_alt:hover {
+    background-color: white;
+    color: black;
+    border: 3px solid black;
+    transform: scale(1.05);
+}
